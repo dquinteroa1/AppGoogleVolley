@@ -53,21 +53,18 @@ public class ActSecuLsta extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        //ArrayList<String> lstnombre = new ArrayList<String> ();
-                        //JSONArray JSONlista = null;
-                        //try {
-                          //  JSONlista = new JSONArray(response);
-                            //for(int i=0; i< JSONlista.length();i++){
-                              //  JSONObject name=  JSONlista.getJSONObject(i);
-                                //lstnombre.add(name.getString("nombre").toString());
-                            //}
-                            //sms.setText(lstnombre.toString());
-                        // } catch (JSONException e) {
-                         //   e.printStackTrace();
-                       // }
-
-                        sms.setText("Respuesta"+"\n"+ response);
-
+                        String lstDatos ="";
+                        try {
+                            JSONArray jsonLista = response.getJSONArray("clientes");
+                            for(int i=0; i< jsonLista.length();i++) {
+                                JSONObject cliente = jsonLista.getJSONObject(i);
+                                lstDatos = lstDatos + cliente.getString("identificacion").toString()+
+                                        " "+ cliente.getString("nombre").toString()+"\n";
+                            }
+                            } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        sms.setText(lstDatos);
                     }
                 },
                 new Response.ErrorListener() {
